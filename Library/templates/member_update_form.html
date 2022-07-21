@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Update Member
+{% endblock %}
+
+{% block body %}
+<div class="container my-4" style="text-align:center ;">
+    <h1>Update Member</h1>
+</div>
+
+    <div class="container my-5" style="width:100%">
+        <form action="/update_member/{{data.id}}" method="POST" style="width: 100%;">
+            <div class="container my-2" style="display:flex; flex-direction: row;">
+                <div style="flex:3">
+                    <label class="mx-1 my-2" for="member_fullname">Enter Full Name: </label>
+                </div>
+                <div style="flex:15; width:100%">
+                    <input type="text" class="my-2" style="width:100%" name="member_fullname" id="member_fullname" value="{{data.fullname}}" required>
+                </div>
+            </div>
+            <div class="container my-2" style="display:flex; flex-direction: row;">
+                <div style="flex:3">
+                    <label class="mx-1 my-2" for="member_email">Enter Email: </label>
+                </div>
+                <div style="flex:15; width:100%">
+                    <input type="email" class="my-2" style="width:100%" name="member_email" id="member_email" value="{{data.email}}" required>
+                </div>
+            </div>
+            <div class="container my-2" style="display:flex; flex-direction: row;">
+                <div style="flex:3">
+                    <label class="mx-1 my-2" for="member_phone">Enter Phone Number: </label>
+                </div>
+                <div style="flex:15; width:100%">
+                    <input type="tel" class="my-2" style="width:100%" name="member_phone" id="member_phone" value="{{data.phone}}" required>
+                </div>
+            </div>
+            <div class="container my-3">
+                <input type="submit" value="Confirm" class="btn btn-info mx-2 my-3" >
+                <a href="/member_list" class="btn btn-dark my-3 ">Go Back</a>
+            </div>
+            
+            
+        </form>
+    </div>
+{% endblock %}
