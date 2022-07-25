@@ -65,7 +65,8 @@ Pay Page
 ___
 Import Book Page
 This page import books into system with API use.
-![Import Book Page](https://user-images.githubusercontent.com/108964197/180741827-12bc6a2f-a7ae-4002-8289-58557951e44b.png)
+![Screenshot 2022-07-25 145049](https://user-images.githubusercontent.com/108964197/180743086-9c65a85d-79fc-493a-b270-1fc19fc40333.png)
+
 ___
 
 Member are charged on Per day basis. There is no Membership fee.
