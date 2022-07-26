@@ -63,7 +63,9 @@ ___
 
 ___
 ## Add New Member
-![Add New Member](https://user-images.githubusercontent.com/108964197/180741195-da0d2fca-2d82-47f6-be89-1ed006b4349a.png)
+![Add New Member](https://user-images.githubusercontent.com/108964197/181050714-fb43e105-387a-4d04-a863-63a59c3826fa.png)
+
+
 
 ___
 ## Update Member
