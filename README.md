@@ -1,7 +1,7 @@
 # L!BRARY
 This is Library Management Project.
 This Project was a great help for building my skills around web development. 
-In every single step I went through this project I got to learn something new.
+In every single step I went through in this project I got to learn something new.
 ---
 ___
 This project uses flask with SQLAlchemy for backend and Bootstrap for styling.
