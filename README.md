@@ -89,9 +89,9 @@ ___
 ___
 
 Member are charged on Per day basis. There is no Membership fee.
-Member Can have on one book at a time.
-For Each day member has a book he will be charged on per day INR 8 basis.
-And He will charge on return. Member cannot have debt of more than INR 500 if he wants a book.
+Member Can have only one book at a time.
+For each day member has a book, he will be charged INR 8. Member cannot have debt more than INR 500 if he wants to issue a book.
+
 
 
 
