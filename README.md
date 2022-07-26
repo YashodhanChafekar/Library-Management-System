@@ -45,7 +45,8 @@ Book Return Confirmation
 ___
 On returning Trasactions page will be updated.
 Trasaction page already has transaction when it was issued. On returning the book this trasaction will update returned date from none to present value.
-![TransactionsPage](https://user-images.githubusercontent.com/108964197/180741092-92dda015-033d-49e1-aedf-43e67ca7956e.png)
+![TransactionsPage](https://user-images.githubusercontent.com/108964197/180897478-fe9779d4-bdce-4782-adf3-40bfeeced660.png)
+
 ___
 Members Page
 ![Memberspage](https://user-images.githubusercontent.com/108964197/180741136-6e8fc51e-c477-4aca-8673-0010df26c3da.png)
