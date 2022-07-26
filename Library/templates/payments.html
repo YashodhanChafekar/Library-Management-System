@@ -4,6 +4,52 @@
     Payments
 {% endblock %}
 
-{% block body %}
-    <h1>Payments Page</h1>
+{% block search %}
+<form action="/payments" method="post" class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" name="search_input" type="search" placeholder="Search" aria-label="Search">
+    <input class="btn btn-outline-light my-2 my-sm-0" type="submit" value="Search">
+  </form>
 {% endblock %}
+
+{% block body %}
+<div style="text-align:center; display: flex; flex-direction: row; align-items:center">
+    <div style="flex:16; text-align:left ">
+        <h1>Payments</h1>
+    </div>
+</div>
+
+    {% for member in data %}
+    {% if member.debt %}
+    <div class ="container jumbotron my-2 " style="display:flex; flex-direction:row; justify-content:space-between;padding: 10px 30px 10px 30px;">
+        <div class="container mx-2" style="flex:9;">  
+            <h3>{{member.fullname}}</h3>
+            <h6>ID: {{member.id}}</h6>
+            <h6><i class="fa fa-envelope"></i> {{member.email}}</h6>
+            <h6><i class="fa fa-phone"></i> {{member.phone}}</h6>
+            
+
+            {% if member.has_book %}
+            <h6 class="badge bg-dark" style="color:white;">Book Assigned</h6>
+            {% else %}
+            <h6 class="badge bg-light">Book Not Assigned</h6>
+            {% endif %}
+            
+            
+        </div>
+        <div style="flex:1; text-align: center;" >
+                <div class="my-2">
+                    <h1 class="badge bg-danger" style="color:white; font-size: larger;">INR {{member.debt}}</h1>
+                    <a href="/confirm_payment/{{member.id}}" class="btn btn-success my-2">Pay Now</a>
+                    
+                </div>
+            
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+{% endblock %}
+
+
+
+ 
+    

@@ -17,7 +17,7 @@ def library():
     app.register_blueprint(books, url_prefix='/')
     app.register_blueprint(members, url_prefix='/')
 
-    from .models import Book,Member,Trasaction
+    from .models import Book,Member,Trasaction,BookRecord
 
     create_database(app)
 

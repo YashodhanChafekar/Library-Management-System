@@ -4,13 +4,60 @@
     IMPORT BOOKS
 {% endblock %}
 
-{% block search %}
-<form class="form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-  </form>
-{% endblock %}
 
 {% block body %}
-    <h1>FRAPPE API Page</h1>
+    {% for i in data %}  
+    <div  class ="container my-2 jumbotron" style="display:flex; flex-direction:row; justify-content:space-between">
+        <div  id='book_info' class="container mx-2" style="flex:8;">  
+            
+            <h3 id='book_title-{{i["isbn"]}}'>{{i["title"]}}</h3>
+            <h6>ID: {{i["bookID"]}} </h6>
+            <h6><span  class="mx-1">ISBN:</span><span id="book_isbn-{{i['isbn']}}">{{i["isbn"]}}</span></h6>
+            <h6><span class="mx-1">Authors: </span><span id="book_author-{{i['isbn']}}">{{i["authors"]}}</span></h6>
+            <h6><span class="mx-1">Publisher: </span><span id = "book_publisher-{{i['isbn']}}">{{i["publisher"]}}</span></h6>
+            
+        </div>
+        <div style="flex:2; text-align: center;" >
+            
+                <div class="my-2">
+                    <input id="book_count-{{i['isbn']}}" style="width:100% ;" type="text" placeholder="Count" required>
+                </div>
+                <input type="submit" class="btn btn-primary my-2" id="submit_btn-{{i['isbn']}}" style="width:100% ;" value="Import Book">
+           
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
+     
+     <script>
+        $("#submit_btn-{{i['isbn']}}").click(function() {
+                 book_title = $("#book_title-{{i['isbn']}}").html();
+                 book_title = book_title + '\n' +  $("#book_isbn-{{i['isbn']}}").html();
+                 book_title = book_title + '\n' +  $("#book_author-{{i['isbn']}}").html();
+                 book_title = book_title + '\n' +  $("#book_publisher-{{i['isbn']}}").html();
+                 book_title = book_title + '\n' +  $("#book_count-{{i['isbn']}}").val();
+                 $.ajax({
+                         type: 'POST',
+                         url: 'import_books',
+                         data: {'book_title': book_title},
+                         success: function(res) {
+                            title = res['title']
+                            count = res['count']
+                            alert(count +' Books named ' + title + ' imported successfully.' )
+                            window.location.href = "/"
+                        }
+                
+                }); 
+
+        })
+    </script>
+    {% endfor %} 
+  
+    
+    
+     
+    
+   
+        
+   
 {% endblock %}

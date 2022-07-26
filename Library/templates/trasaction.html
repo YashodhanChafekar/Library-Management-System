@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Transactions
+{% endblock %}
+
+{% block body %}
+<div style="text-align:center; display: flex; flex-direction: row; align-items:center">
+    <div style="flex:16; text-align:left ">
+        <h1>Transactions</h1>
+    </div>
+</div>
+
+
+<div class="container-fluid jumbotron" style="text-align:center ;">
+    <table class="table">
+        <thead class="thead-dark">
+            <th>TransactionID</th>
+            <th>Issued Date</th>
+            <th>Returned Date</th>
+            <th>BookID</th>
+            <th>Book Name</th>
+            <th>MemberID</th>
+            <th>Member Name</th>
+        </thead>
+        {% for i in data[0] %}
+        <tr>
+            <td><h6>{{i.id}}</h6></td>
+            <td><h6>{{i.isuued_date.strftime("%d/%m/%Y %H:%M:%S")}}</h6></td>
+            {% if i.returned_date %}
+            <td><h6>{{i.returned_date.strftime("%d/%m/%Y %H:%M:%S")}}</h6></td>
+            {% else %}
+            <td><h6>{{i.returned_date}}</h6></td>
+            {% endif %}
+            <td><h6>{{i.book_id}}</h6></td>
+            <td><h6>{{ data[2][loop.index-1]}}</h6></td>
+            <td><h6>{{i.member_id}}</h6></td>
+            <td><h6>{{ data[1][loop.index-1] }}</h6></td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+
+    
+{% endblock %}
+
+
+    <div class ="container jumbotron my-2 " style="display:flex; flex-direction:row; justify-content:space-between;padding: 10px 30px 10px 30px;">
+        <div class="container mx-2" style="flex:9;">  
+            <h6>Issued on: {{i.isuued_date}}</h6>
+            <h6>Returned On: {{i.returned_date}}</h6>
+            <h6>Member Id: {{i.member_id}} ({{ data[1][loop.index-1] }})</h6>
+            <h6>Book Id: {{i.book_id}} ({{ data[2][loop.index-1]}})</h6>
+            
+        </div>
+    </div>
+
+
+ 
+    
