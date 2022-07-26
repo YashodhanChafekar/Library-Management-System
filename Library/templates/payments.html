@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Payments
+Payments
 {% endblock %}
 
 {% block search %}
 <form action="/payments" method="post" class="form-inline my-2 my-lg-0">
     <input class="form-control mr-sm-2" name="search_input" type="search" placeholder="Search" aria-label="Search">
     <input class="btn btn-outline-light my-2 my-sm-0" type="submit" value="Search">
-  </form>
+</form>
 {% endblock %}
 
 {% block body %}
@@ -18,38 +18,78 @@
     </div>
 </div>
 
-    {% for member in data %}
-    {% if member.debt %}
-    <div class ="container jumbotron my-2 " style="display:flex; flex-direction:row; justify-content:space-between;padding: 10px 30px 10px 30px;">
-        <div class="container mx-2" style="flex:9;">  
-            <h3>{{member.fullname}}</h3>
-            <h6>ID: {{member.id}}</h6>
-            <h6><i class="fa fa-envelope"></i> {{member.email}}</h6>
-            <h6><i class="fa fa-phone"></i> {{member.phone}}</h6>
-            
+{% for member in data %}
+{% if member.debt %}
+<div>
+    <div class="container jumbotron my-2 "
+    style="display:flex; flex-direction:row; justify-content:space-between;padding: 10px 30px 10px 30px;">
+    <div class="container mx-2" style="flex:9;">
+        <h3>{{member.fullname}}</h3>
+        <h6>ID: {{member.id}}</h6>
+        <h6><i class="fa fa-envelope"></i> {{member.email}}</h6>
+        <h6><i class="fa fa-phone"></i> {{member.phone}}</h6>
 
-            {% if member.has_book %}
-            <h6 class="badge bg-dark" style="color:white;">Book Assigned</h6>
-            {% else %}
-            <h6 class="badge bg-light">Book Not Assigned</h6>
-            {% endif %}
-            
-            
-        </div>
-        <div style="flex:1; text-align: center;" >
+
+        {% if member.has_book %}
+        <h6 class="badge bg-dark" style="color:white;">Book Assigned</h6>
+        {% else %}
+        <h6 class="badge bg-light">Book Not Assigned</h6>
+        {% endif %}
+    </div>
+
+        <div style="flex:1; text-align: center;">
+            <div class="my-2">
+                <h1 class="badge bg-danger" style="color:white; font-size: larger;">INR {{member.debt}}</h1>
                 <div class="my-2">
-                    <h1 class="badge bg-danger" style="color:white; font-size: larger;">INR {{member.debt}}</h1>
-                    <a href="/confirm_payment/{{member.id}}" class="btn btn-success my-2">Pay Now</a>
-                    
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal-{{member.id}}"
+                        style="width:100% ;">
+                        Pay Now!
+                    </button>
                 </div>
-            
+
+            </div>
+
+        </div>
+   
+
+    </div>
+    <div class="modal fade" id="exampleModal-{{member.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="color:red; font-weight: bold;">Are You sure You Want to Pay this Amount?</h5>
+            </div>
+            <div class="modal-body" style="text-align:left ;">
+
+                <h3>{{member.fullname}}</h3>
+                <h6>{{member.email}}</h6>
+                <h6> {{member.phone}}</h6>
+                <h1 class="badge bg-danger" style="color:white; font-size: larger;">INR {{member.debt}}</h1>
+            </div>
+            <div class="mx-3" style="text-align: left; font-weight: bold;">
+                <form action="/confirm_payment/{{member.id}}" method="POST">
+                    <div class="my-2">
+                        <input type="text" class="form-control mr-sm-2" name="amount" id="amount"
+                            placeholder="Enter Paying Amount" autocomplete="off">
+                    </div>
+                    <button type="button" class="btn btn-secondary my-4" data-bs-dismiss="modal">Cancel</button>
+                    <input type="submit" class=" btn btn-danger my-4 mx-2" value="Confirm">
+                </form>
+            </div>
         </div>
     </div>
-    {% endif %}
-    {% endfor %}
+</div>
+
+
+
+
+
+</div>
+
+{% endif %}
+{% endfor %}
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 {% endblock %}
-
-
-
- 
-    

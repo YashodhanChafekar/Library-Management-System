@@ -13,29 +13,20 @@ books = Blueprint('books', __name__)
 @books.route('/import_books', methods=['GET','POST'])
 def import_books():
     if request.method == "POST":
-        book_title = request.form['book_title']
-        book_info = (book_title).split('\n')
-        print(book_info)
-        name = book_info[0]
-        isbn = book_info[1]
-        author = book_info[2]
-        publisher = book_info[3]
-        count = book_info[4]
-        """ new_book_record = BookRecord(book_name = name, book_isbn = isbn, count=count )
-        db.session.add(new_book_record)
-        db.session.commit() """
-        for i in range(int(count)):
-            new_book = Book(name=name, isbn=isbn, author=author, publisher=publisher)
+        book_info = request.form.get('book_info')
+        book_info = json.loads(book_info)
+    
+        for i in range(int(book_info['count'])):
+            new_book = Book(name=book_info['book_title'], isbn=book_info['book_isbn'], author=book_info['book_author'], publisher=book_info['book_publisher'])
             db.session.add(new_book)
             db.session.commit()
-        return {'title':name, 'count':count}
+        return {'title': book_info['book_title'], 'count': book_info['count']}
     else:
         req = requests.get("https://frappe.io/api/method/frappe-library")
         data = req.json()
         return render_template('import_books.html', data=data['message'])
 
-""" @books.route('/import_this_book', methods=['GET','POST'])
-def import_this_book(): """
+
     
 
 
@@ -145,65 +136,34 @@ def issued_books():
             books.append(i)
     for i in books:
         id = i.id
-        transaction = Trasaction.query.filter_by(book_id=id).first()
+        transaction = Trasaction.query.filter_by(book_id=id, returned_date=None).first()
         member = transaction.member_id
         m = Member.query.get(member)
-        members.append(m.fullname)
+        if m:
+            members.append(m.fullname)
+        else:
+            members.append("NA")
     data = (books,members)
     return render_template('issued_books.html',data=data)
 
 @books.route('/issue_this_book/<int:id>', methods=['GET','POST'])
 def issue_this_book(id):
     book_id = id
-    """ new_transaction = Trasaction(book_id=book_id)
-    db.session.add(new_transaction)
-    db.session.commit() """
     member = Member.query.all()
     data = (member, book_id)
     return render_template('issue_this_book.html', data=data)
 
-
-""" # This route is for returned books.
-@books.route('/returned_book/', methods=['GET','POST'])
-def returned_books():
-    transaction = Trasaction.query.all()
-    book = Book.query.all()
-    data = (transaction, book)
-    return render_template('returned_books.html', data=data)  """
     
 
 # This route is for returned books.
 @books.route('/confirm_return/<int:book_id>/', methods=['GET','POST'])
 def confirm_return(book_id):
     if request.method == "POST":
-        book = Book.query.get(book_id)
-        state = False
-        book.query.filter_by(id=book_id).update(dict(issued=state))
-        db.session.commit()
-        transaction = Trasaction.query.filter_by(book_id=book_id).first()
-        member_id = transaction.member_id
-        member = Member.query.get(member_id)
-        member.query.filter_by(id=member_id).update(dict(has_book=False))
-        db.session.commit()
-        returned_date = datetime.datetime.now()
-        transaction.query.filter_by(book_id=book_id).update(dict(returned_date=returned_date))
-        db.session.commit()
-        transaction.query.filter_by(book_id=book_id).first()
-        y = transaction.returned_date
-        x = transaction.isuued_date
-        ans = (y-x).days
-        ans = int(ans)
-        member = Member.query.filter_by(id=member_id).first()
-        print(member.id)
-        if member.debt is None:
-            pay = 8 + 8*ans
-        else:
-            pay = int(member.debt) + 8 + 8*ans
-        member = Member.query.get(member_id)
-        member.query.filter_by(id=member_id).update(dict(debt=pay))
-        db.session.commit()
+        book_issue_state_flase(book_id)
+        member_has_book_false(book_id)
+        update_member_debt(book_id)
         return redirect(url_for('books.trasaction'))
-    print("Not Post")
+    
     book = Book.query.get(book_id)
     data = book
     return render_template('confirm_return.html',data=data) 
@@ -217,10 +177,56 @@ def trasaction():
     books=[]
     for j in transaction:
         book = Book.query.get(j.book_id)
-        books.append(book.name)
+        if book:
+            books.append(book.name)
+        else:
+            books.append('NA')
     for i in transaction:
         member = Member.query.get(i.member_id)
-        members.append(member.fullname)
+        if member:
+            members.append(member.fullname)
+        else:
+            members.append('NA')
     data = (data,members,books)
             
     return render_template('trasaction.html', data=data) 
+
+
+
+
+def book_issue_state_flase(book_id):
+    book = Book.query.get(book_id)
+    state = False
+    book.query.filter_by(id=book_id).update(dict(issued=state))
+    db.session.commit()
+
+def member_has_book_false(book_id):
+    transaction = Trasaction.query.all()
+    transaction = Trasaction.query.filter_by(book_id=book_id, returned_date=None).first()
+    member_id = transaction.member_id
+    Member.query.filter_by(id=member_id).update(dict(has_book=False))
+    db.session.commit()
+
+    
+        
+
+def update_member_debt(book_id):
+    transaction = Trasaction.query.filter_by(book_id=book_id, returned_date=None).first()
+    returned_date = datetime.datetime.now()
+    Trasaction.query.filter_by(book_id=book_id).update(dict(returned_date=returned_date))
+    db.session.commit()
+    member_id = transaction.member_id
+    y = transaction.returned_date
+    x = transaction.isuued_date
+    ans = (y-x).days
+    ans = int(ans)
+    member = Member.query.filter_by(id=member_id).first()
+    if member:
+        if member.debt is None and member is not None:
+            pay = 8 + 8*ans
+        elif member.debt and member is not None:
+            pay = int(member.debt) + 8 + 8*ans
+        member = Member.query.get(member_id)
+        member.query.filter_by(id=member_id).update(dict(debt=pay))
+        db.session.commit()
+        

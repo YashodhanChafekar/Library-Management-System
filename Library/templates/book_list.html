@@ -45,21 +45,51 @@
                     <input type="submit" class="btn btn-info" style="width:100%;" value="Update">
                 </div>
             </form>
-            <form action="/confirm_book_delete/{{book.id}}" method="post">
-                <div class="my-2">
-                    <input type="submit" class="btn btn-danger" style="width:100%;" value="Delete">
+            
+                <div class="my-2" >
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-{{book.id}}" style="width:100% ;">
+                        Delete
+                      </button>
                 </div>
-            </form>
             <form action="/issue_this_book/{{book.id}}" method="post">
                 <div class="my-2">
                     <input type="submit" class="btn btn-success" style="width:100%;" value="Issue This Book!">
                 </div>
             </form>
-            
+            <div class="modal fade" id="exampleModal-{{book.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel" style="color: red;">Are You Sure You Want To Delete?</h5>
+                    </div>
+                    <div class="modal-body" style="text-align:left ;"> 
+                            <h6>{{book.name}}</h6>
+                            <h6>ID: {{book.id}}</h6>
+                            <h6>Isbn: {{book.isbn}}</h6>
+                            <h6>Author: {{book.author}}</h6>
+                            <h6>Published By: {{book.publisher}}</h6>
+                            {% if book.issued %}
+                            <h6 class="badge bg-success" style="color:white;">Issued</h6>
+                            {% else %}
+                            <h6 class="badge bg-dark"  style="color:white;">Not Issued</h6>
+                            {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <form action="/delete-book/{{book.id}}" method="POST">
+                        <input type="submit" class=" btn btn-danger mx-2" value="Confirm">
+                    </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </div>
     </div>
     {% endif %}
     {% endfor %}
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 {% endblock %}
 
 

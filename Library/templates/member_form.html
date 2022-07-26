@@ -9,38 +9,24 @@
     <h1>Add New Member</h1>
 </div>
 
-    <div class="container my-5" style="width:100%">
-        <form action="/member_form" method="POST" style="width: 100%;">
-            <div class="container my-2" style="display:flex; flex-direction: row;">
-                <div style="flex:3">
-                    <label class="mx-1 my-2" for="member_fullname">Enter Full Name: </label>
-                </div>
-                <div style="flex:15; width:100%">
-                    <input type="text" class="my-2" style="width:100%" name="member_fullname" id="member_fullname" required>
-                </div>
+    <div class="container my-5 jumbotron" style="width:100%; font-weight:bold;">
+        <form action="/member_form" method="POST">
+            <div class="form-group">
+              <label class="mx-1" for="member_fullname">Enter Full Name: </label>
+              <input type="text" class="form-control mr-sm-2" style="width:100%" name="member_fullname" id="member_fullname" autocomplete="off" required>
             </div>
-            <div class="container my-2" style="display:flex; flex-direction: row;">
-                <div style="flex:3">
-                    <label class="mx-1 my-2" for="member_email">Enter Email: </label>
-                </div>
-                <div style="flex:15; width:100%">
-                    <input type="email" class="my-2" style="width:100%" name="member_email" id="member_email" required>
-                </div>
+            <div class="form-group">
+              <label class="mx-1 " for="member_email">Enter Email: </label>
+              <input type="email" class="form-control mr-sm-2" style="width:100%" name="member_email" id="member_email" autocomplete="off" required>
             </div>
-            <div class="container my-2" style="display:flex; flex-direction: row;">
-                <div style="flex:3">
-                    <label class="mx-1 my-2" for="member_phone">Enter Phone Number: </label>
-                </div>
-                <div style="flex:15; width:100%">
-                    <input type="tel" class="my-2" style="width:100%" name="member_phone" id="member_phone" required>
-                </div>
+            <div class="form-group">
+              <label class="mx-1 " for="member_phone">Enter Phone Number: </label>
+              <input type="tel" class="form-control mr-sm-2" style="width:100%" name="member_phone" id="member_phone" autocomplete="off" required>
             </div>
             <div class="container my-3">
-                <input type="submit" value="Confirm New Member" class="btn btn-info mx-2 my-3" >
-                <a href="/member_list" class="btn btn-dark my-3 ">Go Back</a>
-            </div>
-            
-            
-        </form>
+              <input type="submit" value="Confirm New Member" class="btn btn-info mx-2 my-3" >
+              <a href="/member_list" class="btn btn-dark my-3 ">Go Back</a>
+          </div>
+          </form>
     </div>
 {% endblock %}

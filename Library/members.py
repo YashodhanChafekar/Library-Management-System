@@ -121,10 +121,12 @@ def confirm_member(member_id, book_id):
         member_state = True
         member.query.filter_by(id=member_id).update(dict(has_book=member_state))
         db.session.commit()
+
         book = Book.query.get(book_id)
         book_state = True
         book.query.filter_by(id=book_id).update(dict(issued=book_state))
         db.session.commit()
+
         member_id = member_id
         book_id = book_id
         isuued_date = datetime.datetime.now()
@@ -132,4 +134,5 @@ def confirm_member(member_id, book_id):
         new_transaction = Trasaction(book_id=book_id,member_id=member_id,isuued_date=isuued_date,returned_date=returned_date)
         db.session.add(new_transaction)
         db.session.commit()
+        
         return redirect(url_for('books.issued_books'))
