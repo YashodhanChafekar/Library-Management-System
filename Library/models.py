@@ -11,8 +11,9 @@ class Trasaction(db.Model):
         nullable=False)
     member = db.relationship('Member')
     returned = db.Column(db.Boolean, default=False )
-    returned_date = db.Column(db.DateTime(timezone=True), default=func.now())
+    returned_date = db.Column(db.DateTime(timezone=True))
     isuued_date = db.Column(db.DateTime(timezone=True), default=func.now())
+
 
 
 class Book(db.Model):
@@ -33,4 +34,8 @@ class Member(db.Model):
     has_book = db.Column(db.Boolean, default=False )
     #isuued_date = db.Column(db.DateTime(timezone=True), default=func.now())
 
-
+class BookRecord(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    book_name = db.Column(db.String(100))
+    book_isbn = db.Column(db.String(100))
+    count = db.Column(db.Integer)

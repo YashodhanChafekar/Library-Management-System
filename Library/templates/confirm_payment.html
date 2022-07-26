@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Confirm Payment
+{% endblock %}
+
+{% block body %}
+    
+    <div class ="container my-2" style="display:flex; flex-direction:row; justify-content:space-between">
+        <div class="container mx-2" style="flex:9;"> 
+            <h5 style="color:red; font-weight: bold;">Are You sure You Want to Pay this Amount?</h5> 
+            <h3>{{data.fullname}}</h3>
+            <h6>{{data.email}}</h6>
+            <h6> {{data.phone}}</h6>
+            <h1 class="badge bg-danger" style="color:white; font-size: larger;">INR {{data.debt}}</h1>
+            <div class="my-2">
+                    <form action="/confirm_payment/{{data.id}}" method="POST">
+                        <div>
+                            <input type="text" class="my-2" name="amount" id="amount" placeholder="Enter Paying Amount">
+                        </div>
+                        <a href="/payments" class="btn btn-dark my-2">Cancle</a>
+                        <input type="submit" class=" btn btn-danger my-2 mx-2" value="Confirm">
+                    </form>
+                
+            </div>
+            
+        </div>
+    </div>
+{% endblock %}

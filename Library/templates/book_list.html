@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block search %}
+<a href="/import_books" class="mx-3 btn btn-success">Import Books</a>
 <form action="/" method="post" class="form-inline my-2 my-lg-0">
     <input class="form-control mr-sm-2" name="search_input" type="search" placeholder="Search" aria-label="Search">
     <input class="btn btn-outline-light my-2 my-sm-0" type="submit" value="Search">
@@ -14,7 +15,7 @@
 {% block body %}
 <div style="text-align:center; display: flex; flex-direction: row; align-items:center">
     <div style="flex:16; text-align:left ">
-        <h1>Books Page</h1>
+        <h1>Books</h1>
     </div>
 
     <div style="flex:4">
@@ -23,14 +24,17 @@
 </div>
 
     {% for book in data %}
+    {% if not book.issued %}
     <div class ="container jumbotron my-2 " style="display:flex; flex-direction:row; justify-content:space-between; padding: 10px 30px 10px 30px;">
         <div class="container mx-2" style="flex:9;">  
             <h3>{{book.name}}</h3>
+            <h6>ID: {{book.id}}</h6>
             <h6>Isbn: {{book.isbn}}</h6>
             <h6>Author: {{book.author}}</h6>
             <h6>Published By: {{book.publisher}}</h6>
+            <!-- <h6>Pages: {{book.pages}}</h6> -->
             {% if book.issued %}
-            <h6 class="badge bg-success">Issued</h6>
+            <h6 class="badge bg-success" style="color:white;">Issued</h6>
             {% else %}
             <h6 class="badge bg-dark"  style="color:white;">Not Issued</h6>
             {% endif %}
@@ -46,9 +50,15 @@
                     <input type="submit" class="btn btn-danger" style="width:100%;" value="Delete">
                 </div>
             </form>
+            <form action="/issue_this_book/{{book.id}}" method="post">
+                <div class="my-2">
+                    <input type="submit" class="btn btn-success" style="width:100%;" value="Issue This Book!">
+                </div>
+            </form>
             
         </div>
     </div>
+    {% endif %}
     {% endfor %}
 {% endblock %}
 
