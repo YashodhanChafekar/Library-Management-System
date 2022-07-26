@@ -26,26 +26,28 @@
            
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
      
      <script>
         $("#submit_btn-{{i['isbn']}}").click(function() {
-                 book_title = $("#book_title-{{i['isbn']}}").html();
-                 book_title = book_title + '\n' +  $("#book_isbn-{{i['isbn']}}").html();
-                 book_title = book_title + '\n' +  $("#book_author-{{i['isbn']}}").html();
-                 book_title = book_title + '\n' +  $("#book_publisher-{{i['isbn']}}").html();
-                 book_title = book_title + '\n' +  $("#book_count-{{i['isbn']}}").val();
-                 $.ajax({
+                book_info = {
+                    'book_title' : $("#book_title-{{i['isbn']}}").html(),
+                    'book_isbn': $("#book_isbn-{{i['isbn']}}").html(),
+                    'book_author' : $("#book_author-{{i['isbn']}}").html(),
+                    'book_publisher': $("#book_publisher-{{i['isbn']}}").html(),
+                    'count' : $("#book_count-{{i['isbn']}}").val(),
+                };
+                $.ajax({
                          type: 'POST',
-                         url: 'import_books',
-                         data: {'book_title': book_title},
+                         url: '/import_books',
+                         data: {'book_info': JSON.stringify(book_info)},
                          success: function(res) {
                             title = res['title']
                             count = res['count']
                             alert(count +' Books named ' + title + ' imported successfully.' )
                             window.location.href = "/"
-                        }
+                        },
                 
                 }); 
 
