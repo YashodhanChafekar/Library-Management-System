@@ -17,7 +17,7 @@ The Library Management System can be used only by Librarian. This system allows:
 * Book has status flags as _issued_ or _not issued_.
 * Members has status _Book Assigned_ and _Book Not Assigned_.
 * Member cannot have outstanding debt of more than INR 500.
-* System Records Trasactions with _issued date_ and _Returned Date_ with _book id_ and _member id_ involved.
+* System Records Transactions with _issued date_ and _Returned Date_ with _book id_ and _member id_ involved.
 * There is payments page as well which is simple page without any online integration.
 * Librarian Can Import books from Api in page import_books.html.
 ___
@@ -51,8 +51,8 @@ ___
 ![Confirm Return](https://user-images.githubusercontent.com/108964197/181046590-17f00f1a-075d-4add-b873-2ccccf24c5ad.png)
 
 ___
-## On returning book Trasactions page will be updated.
-## Trasaction page already has transaction when it was issued. On returning the book this trasaction will update returned date from none to present value.
+## On returning book Transactions page will be updated.
+## Transaction page already has transaction when it was issued. On returning the book this transaction will update returned date from none to present value.
 ![Transactions](https://user-images.githubusercontent.com/108964197/181046690-b5e692e6-5d4b-4d83-8823-5a377dc6575a.png)
 
 

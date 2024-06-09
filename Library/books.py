@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 import requests
 import json
-from .models import Book, Member, Trasaction, BookRecord
+from .models import Book, Member, Transaction, BookRecord
 from . import db
 import datetime
 from datetime import date
@@ -27,9 +27,6 @@ def import_books():
         return render_template('import_books.html', data=data['message'])
 
 
-    
-
-
 # This route is for books from DATABASE. This is also where user lands first.
 @books.route('/', methods=['GET','POST'])
 def book_list():
@@ -46,6 +43,7 @@ def book_list():
     data = Book.query.all()
     return render_template('book_list.html',data=data)
 
+
 # This route is for book form.
 @books.route('/book_form', methods=['GET', 'POST'])
 def book_form():
@@ -61,6 +59,7 @@ def book_form():
         return redirect(url_for('books.book_list'))
     return render_template('book_form.html')
 
+
 @books.route('/delete-book/<int:id>', methods=['POST'])
 def delete_book(id):
     if request.method == 'POST':
@@ -69,6 +68,7 @@ def delete_book(id):
         db.session.commit()
 
         return redirect('/')
+
 
 @books.route('/confirm_book_delete/<int:id>', methods=['GET','POST'])
 def confirm_delete(id):
@@ -97,10 +97,6 @@ def update_book(id):
     return render_template('book_update_form.html', data=book)
 
 
-
-
-
-
 # This route is for issued books.
 @books.route('/issued_book/', methods=['GET','POST'])
 def issued_books():
@@ -122,7 +118,7 @@ def issued_books():
         for i in data:
                 if i:
                     id = i.id
-                    transaction = Trasaction.query.filter_by(book_id=id).first()
+                    transaction = Transaction.query.filter_by(book_id=id).first()
                     member = transaction.member_id
                     m = Member.query.get(member)
                     members.append(m.fullname)
@@ -136,7 +132,7 @@ def issued_books():
             books.append(i)
     for i in books:
         id = i.id
-        transaction = Trasaction.query.filter_by(book_id=id, returned_date=None).first()
+        transaction = Transaction.query.filter_by(book_id=id, returned_date=None).first()
         member = transaction.member_id
         m = Member.query.get(member)
         if m:
@@ -154,7 +150,6 @@ def issue_this_book(id):
     return render_template('issue_this_book.html', data=data)
 
     
-
 # This route is for returned books.
 @books.route('/confirm_return/<int:book_id>/', methods=['GET','POST'])
 def confirm_return(book_id):
@@ -162,16 +157,16 @@ def confirm_return(book_id):
         book_issue_state_flase(book_id)
         member_has_book_false(book_id)
         update_member_debt(book_id)
-        return redirect(url_for('books.trasaction'))
+        return redirect(url_for('books.get_transaction'))
     
     book = Book.query.get(book_id)
     data = book
     return render_template('confirm_return.html',data=data) 
 
 
-@books.route('/trasaction', methods=['GET','POST'])
-def trasaction():
-    transaction = Trasaction.query.all()
+@books.route('/Transaction', methods=['GET','POST'])
+def get_transaction():
+    transaction = Transaction.query.all()
     data = transaction
     members=[]
     books=[]
@@ -189,9 +184,7 @@ def trasaction():
             members.append('NA')
     data = (data,members,books)
             
-    return render_template('trasaction.html', data=data) 
-
-
+    return render_template('transaction.html', data=data) 
 
 
 def book_issue_state_flase(book_id):
@@ -200,20 +193,19 @@ def book_issue_state_flase(book_id):
     book.query.filter_by(id=book_id).update(dict(issued=state))
     db.session.commit()
 
+
 def member_has_book_false(book_id):
-    transaction = Trasaction.query.all()
-    transaction = Trasaction.query.filter_by(book_id=book_id, returned_date=None).first()
+    transaction = Transaction.query.all()
+    transaction = Transaction.query.filter_by(book_id=book_id, returned_date=None).first()
     member_id = transaction.member_id
     Member.query.filter_by(id=member_id).update(dict(has_book=False))
     db.session.commit()
 
     
-        
-
 def update_member_debt(book_id):
-    transaction = Trasaction.query.filter_by(book_id=book_id, returned_date=None).first()
+    transaction = Transaction.query.filter_by(book_id=book_id, returned_date=None).first()
     returned_date = datetime.datetime.now()
-    Trasaction.query.filter_by(book_id=book_id).update(dict(returned_date=returned_date))
+    Transaction.query.filter_by(book_id=book_id).update(dict(returned_date=returned_date))
     db.session.commit()
     member_id = transaction.member_id
     y = transaction.returned_date
@@ -222,7 +214,7 @@ def update_member_debt(book_id):
     ans = int(ans)
     member = Member.query.filter_by(id=member_id).first()
     if member:
-        if member.debt is None and member is not None:
+        if member.debt == 0 and member is not None:
             pay = 8 + 8*ans
         elif member.debt and member is not None:
             pay = int(member.debt) + 8 + 8*ans

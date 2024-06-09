@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import Member,Book,Trasaction
+from .models import Member,Book,Transaction
 from . import db
 import datetime
 members = Blueprint('members', __name__)
@@ -131,7 +131,7 @@ def confirm_member(member_id, book_id):
         book_id = book_id
         isuued_date = datetime.datetime.now()
         returned_date = None
-        new_transaction = Trasaction(book_id=book_id,member_id=member_id,isuued_date=isuued_date,returned_date=returned_date)
+        new_transaction = Transaction(book_id=book_id,member_id=member_id,isuued_date=isuued_date,returned_date=returned_date)
         db.session.add(new_transaction)
         db.session.commit()
         

@@ -2,7 +2,7 @@
 from . import db
 from sqlalchemy.sql import func
 
-class Trasaction(db.Model):
+class Transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'),
         nullable=False)
@@ -13,7 +13,6 @@ class Trasaction(db.Model):
     returned = db.Column(db.Boolean, default=False )
     returned_date = db.Column(db.DateTime(timezone=True))
     isuued_date = db.Column(db.DateTime(timezone=True), default=func.now())
-
 
 
 class Book(db.Model):
@@ -30,9 +29,10 @@ class Member(db.Model):
     fullname = db.Column(db.String(100))
     email = db.Column(db.String(100))
     phone = db.Column(db.String(13))
-    debt = db.Column(db.Integer)
+    debt = db.Column(db.Integer, default=0)
     has_book = db.Column(db.Boolean, default=False )
     #isuued_date = db.Column(db.DateTime(timezone=True), default=func.now())
+
 
 class BookRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)

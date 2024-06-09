@@ -17,16 +17,11 @@ def library():
     app.register_blueprint(books, url_prefix='/')
     app.register_blueprint(members, url_prefix='/')
 
-    from .models import Book,Member,Trasaction,BookRecord
+    from .models import Book,Member,Transaction,BookRecord
 
-    create_database(app)
-
-
-
+    with app.app_context():
+        if path.exists('Library/' + DB_NAME):
+            db.create_all()
+            print('Created Database!')
 
     return app
-
-def create_database(app):
-    if not path.exists('Library/' + DB_NAME):
-        db.create_all(app=app)
-        print('Created Database!')
