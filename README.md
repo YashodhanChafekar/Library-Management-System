@@ -8,9 +8,7 @@ This project uses flask with SQLAlchemy for backend and Bootstrap for styling.
 For making this project work. You have to follow to simple steps.
 
 ```
-pip install flask
-
-pip install sqlalchemy
+pip install -r requirements.txt
 ```
 The Library Management System can be used only by Librarian. This system allows:
 * CRUD Operations on Books and members.
